@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "OrderMicroservice.Protos";
+
+service OrderServiceProto {
+	rpc GetOrders (GetOrdersRequest) returns (stream OrderDto);
+	rpc CreateOrder (CreateOrderRequest) returns (OrderDto);
+ 
+	rpc AddOrderItem (AddOrderItemRequest) returns (OrderItemDto);
+}
+
+message OrderItemDto {
+	string id = 1;
+	string orderId = 2;
+	string productId = 3;	
+	int32 quantity = 4;
+	float price = 5;
+	string promotionCode = 6;
+	bool extendedGurantee = 7;
+}
+
+message OrderDto { 
+	string id = 1;
+	repeated OrderItemDto orderItems = 2;
+}
+
+message GetOrdersRequest {
+	repeated string orderIds = 1;
+}
+
+message CreateOrderRequest { }
+
+message AddOrderItemRequest{
+	OrderItemDto orderItem = 1;
+}

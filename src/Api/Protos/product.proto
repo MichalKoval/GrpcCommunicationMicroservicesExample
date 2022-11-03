@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option csharp_namespace = "Api.Protos";
+
+service ProductServiceProto {
+	rpc GetProducts (GetProductsRequest) returns (stream ProductDto);
+	rpc AddProduct (AddProductRequest) returns (ProductDto);
+}
+
+message ProductDto {
+	string id = 1;
+	string name = 2;
+    string description = 3;
+	ProductSizeDto size = 4;
+    repeated ProductReviewDto reviews = 5;
+}
+
+message ProductReviewDto {
+	string id = 1;
+	string title = 2;
+	string description = 3;
+	int32 starRating = 4;
+}
+
+enum ProductSizeDto {
+	SMALL = 0;
+	MEDIUM = 1;
+	LARGE = 2;
+}
+
+message GetProductsRequest {
+	repeated string productIds = 1;
+}
+
+message AddProductRequest {
+	ProductDto product = 1;
+}
