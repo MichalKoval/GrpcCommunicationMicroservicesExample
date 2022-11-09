@@ -1,7 +1,10 @@
-﻿namespace Api.Dtos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Api.Dtos
 {
     public class GetOrdersResult
     {
-        public List<OrderResult> Orders { get; set; }
+        [Required]
+        public IEnumerable<OrderResult> Orders { get; set; }
     }
 }

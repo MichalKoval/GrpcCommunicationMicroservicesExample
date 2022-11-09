@@ -10,9 +10,9 @@ service ProductServiceProto {
 message ProductDto {
 	string id = 1;
 	string name = 2;
-    string description = 3;
+	string description = 3;
 	ProductSizeDto size = 4;
-    repeated ProductReviewDto reviews = 5;
+	repeated ProductReviewDto reviews = 5;
 }
 
 message ProductReviewDto {

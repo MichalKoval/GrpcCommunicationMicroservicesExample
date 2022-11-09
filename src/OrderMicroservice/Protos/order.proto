@@ -5,7 +5,7 @@ option csharp_namespace = "OrderMicroservice.Protos";
 service OrderServiceProto {
 	rpc GetOrders (GetOrdersRequest) returns (stream OrderDto);
 	rpc CreateOrder (CreateOrderRequest) returns (OrderDto);
- 
+
 	rpc AddOrderItem (AddOrderItemRequest) returns (OrderItemDto);
 }
 

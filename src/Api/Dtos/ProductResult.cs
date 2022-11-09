@@ -12,7 +12,7 @@ namespace Api.Dtos
 
         public string Description { get; set; }
         public int Size { get; set; }
-        public IList<ProductReviewResult> Reviews { get; set; }
+        public IEnumerable<ProductReviewResult> Reviews { get; set; }
         
     }
 }

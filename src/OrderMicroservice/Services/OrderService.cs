@@ -9,7 +9,6 @@ namespace OrderMicroservice.Services
 {
     public class OrderService : OrderServiceProto.OrderServiceProtoBase
     {
-        private readonly TimeSpan ResponseStreamMessageDelay = TimeSpan.FromMilliseconds(500);
         private readonly ILogger<OrderService> _logger;
         private readonly IMapper _mapper;
         private readonly IOrderRepository _orderRepository;
@@ -29,6 +28,8 @@ namespace OrderMicroservice.Services
 
         public override async Task GetOrders(GetOrdersRequest request, IServerStreamWriter<OrderDto> responseStream, ServerCallContext context)
         {
+            _logger.LogInformation("Order microservice: Getting orders...");
+
             var orders = await _orderRepository.GetAsync(request.OrderIds);
 
             if (orders is null)
@@ -51,6 +52,8 @@ namespace OrderMicroservice.Services
 
         public override async Task<OrderDto> CreateOrder(CreateOrderRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Order microservice: Creating order...");
+
             var newOrder = new Order
             {
                 Id = Guid.NewGuid().ToString(),
@@ -75,6 +78,8 @@ namespace OrderMicroservice.Services
 
         public override async Task<OrderItemDto> AddOrderItem(AddOrderItemRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Order microservice: Adding order item to the order ...");
+
             var newOrderItem = request.OrderItem;
 
             if (newOrderItem.OrderId is null)

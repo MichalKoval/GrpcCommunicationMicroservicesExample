@@ -8,6 +8,6 @@ namespace Api.Dtos
         public string Id { get; set; }
 
         [Required]
-        public List<OrderItemResult> OrderItems { get; set; }
+        public IEnumerable<OrderItemResult> OrderItems { get; set; }
     }
 }

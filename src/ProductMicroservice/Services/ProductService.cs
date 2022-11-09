@@ -9,7 +9,6 @@ namespace ProductMicroservice.Services
 {
     public class ProductService : ProductServiceProto.ProductServiceProtoBase
     {
-        private readonly TimeSpan ResponseStreamMessageDelay = TimeSpan.FromMilliseconds(500);
         private readonly ILogger<ProductService> _logger;
         private readonly IMapper _mapper;
         private readonly IProductRepository _productRepository;
@@ -29,6 +28,8 @@ namespace ProductMicroservice.Services
 
         public override async Task GetProducts(GetProductsRequest request, IServerStreamWriter<ProductDto> responseStream, ServerCallContext context)
         {
+            _logger.LogInformation("Product microservice: Getting products...");
+
             var products = await _productRepository.GetAsync(request.ProductIds);
 
             if (products is null)
@@ -51,6 +52,8 @@ namespace ProductMicroservice.Services
 
         public override async Task<ProductDto> AddProduct(AddProductRequest request, ServerCallContext context)
         {
+            _logger.LogInformation("Product microservice: Adding new product...");
+
             try
             {
                 var product = await _productRepository.AddAsync(_mapper.Map<Product>(request.Product));
