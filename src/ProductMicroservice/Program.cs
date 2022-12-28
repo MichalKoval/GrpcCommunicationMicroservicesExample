@@ -9,11 +9,17 @@ builder.Services.AddDbContext<ProductContext>();
 builder.Services.AddScoped<IProductReviewRepository, ProductReviewRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddGrpc();
+builder.Services.AddGrpcReflection();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
 app.EnsureDbCreated();
 app.MapGrpcService<ProductService>();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapGrpcReflectionService();
+}
 
 app.Run();
