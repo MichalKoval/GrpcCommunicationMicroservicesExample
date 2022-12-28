@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Api.Dtos
+namespace Api.Dtos;
+
+public class GetOrdersResult
 {
-    public class GetOrdersResult
-    {
-        [Required]
-        public IEnumerable<OrderResult> Orders { get; set; }
-    }
+    [Required]
+    public IEnumerable<OrderResult> Orders { get; set; }
 }
