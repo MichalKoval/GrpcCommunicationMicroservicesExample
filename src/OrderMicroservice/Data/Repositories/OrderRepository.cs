@@ -24,7 +24,7 @@ namespace OrderMicroservice.Data.Repositories
         {
             order.Id = Guid.NewGuid().ToString();
 
-            var existingOrder = await GetAsync(new List<string> { order.Id });
+            var existingOrder = (await GetAsync(new List<string> { order.Id })).FirstOrDefault();
 
             if (existingOrder is not null)
             {

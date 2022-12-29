@@ -56,7 +56,6 @@ namespace OrderMicroservice.Services
 
             var newOrder = new Order
             {
-                Id = Guid.NewGuid().ToString(),
                 OrderItems = new List<OrderItem>()
             };
 
@@ -91,8 +90,6 @@ namespace OrderMicroservice.Services
             {
                 throw new RpcException(new Status(StatusCode.InvalidArgument, "Please provide Product Id."));
             }
-
-            newOrderItem.Id = Guid.NewGuid().ToString();
 
             try
             {

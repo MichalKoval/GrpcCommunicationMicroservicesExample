@@ -30,6 +30,6 @@ message GetOrdersRequest {
 
 message CreateOrderRequest { }
 
-message AddOrderItemRequest{
+message AddOrderItemRequest {
 	OrderItemDto orderItem = 1;
 }

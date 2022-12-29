@@ -25,7 +25,7 @@ namespace ProductMicroservice.Data.Repositories
         {
             product.Id = Guid.NewGuid().ToString();
 
-            var existingProduct = await GetAsync(new List<string> { product.Id });
+            var existingProduct = (await GetAsync(new List<string> { product.Id })).FirstOrDefault();
 
             if (existingProduct is not null)
             {
