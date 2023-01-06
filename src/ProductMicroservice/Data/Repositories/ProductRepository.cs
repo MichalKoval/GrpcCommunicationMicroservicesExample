@@ -2,41 +2,40 @@
 using ProductMicroservice.Data.Entities;
 using System.Data;
 
-namespace ProductMicroservice.Data.Repositories
+namespace ProductMicroservice.Data.Repositories;
+
+public class ProductRepository : IProductRepository
 {
-    public class ProductRepository : IProductRepository
+    private readonly ProductContext _context;
+
+    public ProductRepository(ProductContext context)
     {
-        private readonly ProductContext _context;
+        _context = context;
+    }
 
-        public ProductRepository(ProductContext context)
+    public async Task<IEnumerable<Product>> GetAsync(IEnumerable<string> productIds)
+    {
+        return await _context.Products
+            .Where(p => !p.IsDeleted && productIds.Contains(p.Id))
+            .Include(p => p.ProductReviews)
+            .ToListAsync();
+    }
+
+    public async Task<Product> AddAsync(Product product)
+    {
+        product.Id = Guid.NewGuid().ToString();
+
+        var existingProduct = (await GetAsync(new List<string> { product.Id })).FirstOrDefault();
+
+        if (existingProduct is not null)
         {
-            _context = context;
+            throw new DataException($"Add Product: Product with the given Id: {product.Id} already exists.");
         }
 
-        public async Task<IEnumerable<Product>> GetAsync(IEnumerable<string> productIds)
-        {
-            return await _context.Products
-                .Where(p => !p.IsDeleted && productIds.Contains(p.Id))
-                .Include(p => p.ProductReviews)
-                .ToListAsync();
-        }
+        var result = await _context.Products.AddAsync(product);
 
-        public async Task<Product> AddAsync(Product product)
-        {
-            product.Id = Guid.NewGuid().ToString();
+        await _context.SaveChangesAsync();
 
-            var existingProduct = (await GetAsync(new List<string> { product.Id })).FirstOrDefault();
-
-            if (existingProduct is not null)
-            {
-                throw new DataException($"Add Product: Product with the given Id: {product.Id} already exists.");
-            }
-
-            var result = await _context.Products.AddAsync(product);
-
-            await _context.SaveChangesAsync();
-
-            return result.Entity;
-        }
+        return result.Entity;
     }
 }

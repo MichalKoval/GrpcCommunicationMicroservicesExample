@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ProductMicroservice.Data.Entities
-{
-    public class BaseEntity<TKey>
-    {
-        [Key]
-        public TKey Id { get; set; }
+namespace ProductMicroservice.Data.Entities;
 
-        public bool IsDeleted { get; set; }
-    }
+public class BaseEntity<TKey>
+{
+    [Key]
+    public TKey Id { get; set; }
+
+    public bool IsDeleted { get; set; }
 }

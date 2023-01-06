@@ -1,7 +1,6 @@
-﻿namespace OrderMicroservice.Data.Entities
+﻿namespace OrderMicroservice.Data.Entities;
+
+public class Order : BaseEntity<string>
 {
-    public class Order : BaseEntity<string>
-    {
-        public virtual ICollection<OrderItem> OrderItems { get; set; }
-    }
+    public virtual ICollection<OrderItem> OrderItems { get; set; }
 }

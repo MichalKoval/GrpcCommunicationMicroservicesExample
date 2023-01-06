@@ -2,40 +2,39 @@
 using ProductMicroservice.Data.Entities;
 using System.Data;
 
-namespace ProductMicroservice.Data.Repositories
+namespace ProductMicroservice.Data.Repositories;
+
+public class ProductReviewRepository : IProductReviewRepository
 {
-    public class ProductReviewRepository : IProductReviewRepository
+    private readonly ProductContext _context;
+
+    public ProductReviewRepository(ProductContext context)
     {
-        private readonly ProductContext _context;
+        _context = context;
+    }
 
-        public ProductReviewRepository(ProductContext context)
+    public async Task<IEnumerable<ProductReview>> GetAsync(IEnumerable<string> productReviewIds)
+    {
+        return await _context.ProductReviews
+            .Where(o => !o.IsDeleted && productReviewIds.Contains(o.Id))
+            .ToListAsync();
+    }
+
+    public async Task<ProductReview> AddAsync(ProductReview productReview)
+    {
+        productReview.Id = Guid.NewGuid().ToString();
+
+        var existingProduct = await GetAsync(new List<string> { productReview.Id });
+
+        if (existingProduct is not null)
         {
-            _context = context;
+            throw new DataException($"Add Product Review: Product review with the given Id: {productReview.Id} already exists.");
         }
 
-        public async Task<IEnumerable<ProductReview>> GetAsync(IEnumerable<string> productReviewIds)
-        {
-            return await _context.ProductReviews
-                .Where(o => !o.IsDeleted && productReviewIds.Contains(o.Id))
-                .ToListAsync();
-        }
+        var result = await _context.ProductReviews.AddAsync(productReview);
 
-        public async Task<ProductReview> AddAsync(ProductReview productReview)
-        {
-            productReview.Id = Guid.NewGuid().ToString();
+        await _context.SaveChangesAsync();
 
-            var existingProduct = await GetAsync(new List<string> { productReview.Id });
-
-            if (existingProduct is not null)
-            {
-                throw new DataException($"Add Product Review: Product review with the given Id: {productReview.Id} already exists.");
-            }
-
-            var result = await _context.ProductReviews.AddAsync(productReview);
-
-            await _context.SaveChangesAsync();
-
-            return result.Entity;
-        }
+        return result.Entity;
     }
 }

@@ -1,10 +1,9 @@
 ﻿using ProductMicroservice.Data.Entities;
 
-namespace ProductMicroservice.Data.Repositories
+namespace ProductMicroservice.Data.Repositories;
+
+public interface IProductRepository
 {
-    public interface IProductRepository
-    {
-        Task<IEnumerable<Product>> GetAsync(IEnumerable<string> productIds);
-        Task<Product> AddAsync(Product product);
-    }
+    Task<IEnumerable<Product>> GetAsync(IEnumerable<string> productIds);
+    Task<Product> AddAsync(Product product);
 }
