@@ -5,7 +5,7 @@ where the API gateway fetches information about orders and products from Order a
 
 #### Project architecture
 
-Api, OrderMicroservice and ProductMicroservice projects are part of the same .NET solution. OrderMicroservice and ProductMicroservice projects have:
+Api, OrderMicroservice, and ProductMicroservice projects are part of the same .NET solution. OrderMicroservice and ProductMicroservice projects have:
 - In-memory database and Entity Framework (code-first approach) with repositories;
 - Proto Services;
 - .proto files to define gRPC contracts;
