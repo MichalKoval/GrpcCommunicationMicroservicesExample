@@ -1,6 +1,6 @@
 ### Microservices: gRPC communication example in .NET 6
 
-The repo is part of this blog post: link???. It demonstrates the communication between an API gateway and Order/Product microservices,
+The repo is part of this blog post: [Microservices: Synchronous communication with gRPC](https://developers.mews.com/synchronous-communication-with-grpc/). It demonstrates the communication between an API gateway and Order/Product microservices,
 where the API gateway fetches information about orders and products from Order and Product microservices using gRPC and Protobuf files.
 
 #### Project architecture
